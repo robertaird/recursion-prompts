@@ -354,6 +354,16 @@ var countValuesInObj = function(obj, value) {
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, key, newKey) {
+    for (let i in obj) {
+        if (i === key) {
+            Object.defineProperty(obj, newKey, Object.getOwnPropertyDescriptor(obj, key));
+            delete obj[i];
+        }
+        if (typeof obj[i] === 'object') {
+            replaceKeysInObj(obj[i], key, newKey);
+        }
+    }
+    return obj;
 };
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
@@ -417,6 +427,16 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+    let total = 0;
+    for (let key in obj) {
+        if (obj[key] % 2 === 0) {
+            total += obj[key];
+        }
+        if (typeof obj[key] === 'object') {
+            total += nestedEvenSum(obj[key]);
+        }    
+    }
+    return total;
 };
 
 // 29. Flatten an array containing nested arrays.
@@ -433,7 +453,6 @@ var flatten = function(arrays) {
         return seed.concat(
             Array.isArray(nextVal) ? flatten(nextVal) : nextVal)
     }, []);
-
 };
 
 // 30. Given a string, return an object containing tallies of each letter.
@@ -521,6 +540,26 @@ var numToText = function(str) {
 
 // 36. Return the number of times a tag occurs in the DOM.
 var tagCount = function(tag, node) {
+    // console.log(tag);
+    // console.log(node);
+    var count = 0;
+    if (node === undefined) {
+        node = document;
+    }
+    var nodes = node.childNodes;
+    for (var i = 0; i < nodes.length; i++) {
+        // console.log(nodes[i].tagName, tag);
+        if (nodes[i].tagName) {
+            var currentTag = nodes[i].tagName.toLowerCase();
+        }
+        if (currentTag === tag.toLowerCase()) {
+            count++;
+        }
+        if (nodes[i].childNodes.length > 0) {
+            count += tagCount(tag, nodes[i]);
+        }
+    }
+    return count;
 };
 
 // 37. Write a function for binary search.
@@ -528,6 +567,49 @@ var tagCount = function(tag, node) {
 // console.log(binarySearch(5)) will return '5'
 
 var binarySearch = function(array, target, min, max) {
+    var halfway = Math.floor(array.length / 2);
+    // console.log(array[0]);
+    if (min === undefined) {
+        min = 0;
+    }
+    if (max === undefined) {
+        max = array.length - 1;
+    }
+    // console.log(min, max, "min and max")
+    // console.log(halfway, "is halfway")
+    var firstHalf = array.slice(0, halfway);
+    var secondHalf = array.slice(halfway);
+    // console.log(halfway);
+    // console.log(target, "is target");
+    // console.log(array);
+    // console.log(firstHalf);
+    // console.log(secondHalf)
+    // console.log(firstHalf[0] === target)
+    // console.log(secondHalf[0] === target)
+    if (firstHalf.length === 1 && firstHalf[0] === target) {
+        console.log("did this happen", '\n!!!! ' + min)
+        return min;
+    }
+    if (secondHalf.length === 1 &&secondHalf[0] === target) {
+        console.log("is this happening", '\n???? ' + max)
+        return max;
+    }
+    // console.log(min)
+    // console.log(max)
+    // console.log('---')
+    // if (firstHalf.length <= 1 && secondHalf.length > 1) {
+    //     binarySearch(secondHalf, target, halfway, max)
+    // }
+    // if (secondHalf.length === 0 || firstHalf.length === 0) {
+    //     return null;
+    // }
+    if (firstHalf[firstHalf.length - 1] >= target && firstHalf.length > 1) {
+        return binarySearch(firstHalf, target, min, min + halfway - 1);
+    } 
+    else if (secondHalf[0] <= target && secondHalf.length > 1) {
+        return binarySearch(secondHalf, target, min + halfway, max);
+    }
+    return null;
 };
 
 // 38. Write a merge sort function.
