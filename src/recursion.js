@@ -164,6 +164,20 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+    if (y === 0) {
+        return NaN;
+    }
+    var isPositive = x > 0;
+    if (x < 0) {
+        x = -x;
+    }
+    if (y < 0) {
+        y = -y
+    }
+    if (x >= y) {
+        return isPositive ? modulo(x-y, y) : modulo(-x - -y, y);
+    }
+    return isPositive ? x : -x;
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -183,6 +197,28 @@ var multiply = function(x, y) {
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
 var divide = function(x, y) {
+    if (y === 0) {
+        return NaN;
+    }
+    var neg = false;
+    if (x < 0 || y < 0) {
+        neg = true;
+    } 
+    if (x - y === 0) {
+        return neg? -1 : 1;
+    }
+    if (x < 0) {
+        x = -x;
+    }
+    if (y < 0) {
+        y = -y;
+    }
+    if (x < y) {
+        return 0;
+    } 
+    else {
+        return neg? -divide(x - y, y) + 1 : divide(x - y, y) + 1;
+    }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
@@ -191,6 +227,17 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+    if (x === y)
+        return x;
+    if (x < 0 || y < 0) {
+        return null;
+    }
+    if (x > y) {
+        return gcd(x - y, y); 
+    }
+    if (y > x) {
+        return gcd(x, y - x);
+    }
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -292,6 +339,16 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+    var exists = 0;
+    for (let key in obj) {
+        if (obj[key] === value) {
+            exists += 1;
+        }
+        if (typeof obj[key] === 'object') {
+            exists += countValuesInObj(obj[key], value);
+        }
+    }
+    return exists;
 };
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
