@@ -568,41 +568,20 @@ var tagCount = function(tag, node) {
 
 var binarySearch = function(array, target, min, max) {
     var halfway = Math.floor(array.length / 2);
-    // console.log(array[0]);
     if (min === undefined) {
         min = 0;
     }
     if (max === undefined) {
         max = array.length - 1;
     }
-    // console.log(min, max, "min and max")
-    // console.log(halfway, "is halfway")
     var firstHalf = array.slice(0, halfway);
     var secondHalf = array.slice(halfway);
-    // console.log(halfway);
-    // console.log(target, "is target");
-    // console.log(array);
-    // console.log(firstHalf);
-    // console.log(secondHalf)
-    // console.log(firstHalf[0] === target)
-    // console.log(secondHalf[0] === target)
     if (firstHalf.length === 1 && firstHalf[0] === target) {
-        console.log("did this happen", '\n!!!! ' + min)
         return min;
     }
     if (secondHalf.length === 1 &&secondHalf[0] === target) {
-        console.log("is this happening", '\n???? ' + max)
         return max;
     }
-    // console.log(min)
-    // console.log(max)
-    // console.log('---')
-    // if (firstHalf.length <= 1 && secondHalf.length > 1) {
-    //     binarySearch(secondHalf, target, halfway, max)
-    // }
-    // if (secondHalf.length === 0 || firstHalf.length === 0) {
-    //     return null;
-    // }
     if (firstHalf[firstHalf.length - 1] >= target && firstHalf.length > 1) {
         return binarySearch(firstHalf, target, min, min + halfway - 1);
     } 
@@ -616,4 +595,21 @@ var binarySearch = function(array, target, min, max) {
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
 var mergeSort = function(array) {
+    var merge = function(first, second) {
+        var sortArr = [];
+        while (first.length > 0 && second.length > 0) {
+            sortArr.push(first[0] < second[0]? first.shift() : second.shift())
+        }
+        return sortArr.concat(first.length ? first : second);
+    }
+    var len = array.length;
+    if (len < 2) {
+        return array;
+    }
+    var halfway = Math.floor(array.length / 2);
+    var firstHalf = mergeSort(array.slice(0, halfway));
+    var secondHalf = mergeSort(array.slice(halfway));
+
+    return merge(firstHalf, secondHalf);
 };
+
