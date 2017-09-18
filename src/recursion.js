@@ -368,7 +368,7 @@ var fibonacci = n => {
     if (n === 1) {
         return [0, 1];
     } else {
-        var result = fibonacci(n - 1);
+        let result = fibonacci(n - 1);
         return result.concat(result[result.length - 1]+ result[result.length - 2]);
     }
 };
@@ -477,13 +477,13 @@ var minimizeZeroes = array => array[0] === 0 && array[1] === 0 ? (array.length =
 // * I don't know if the above is actually good for readability... I wrote it and it confuses me. Below for longform.  
 
 //     // This is sort of like compress, but it only compresses zeroes. So.. I can probably run the same as above, but, only with an additional step of seeing if array[0] and array[1] are both equal to zero.
-// var minimizeZeroes = array => {
-//     if (array[0] === 0 && array[1] === 0) {
-//         return array.length === 0 ? [] : [].concat(minimizeZeroes(array.slice(1)))
-//     } else {
-//         return array.length === 0 ? [] : [array[0]].concat(minimizeZeroes(array.slice(1)));
-//     }
-// };
+// * var minimizeZeroes = array => {
+// *    if (array[0] === 0 && array[1] === 0) {
+// *        return array.length === 0 ? [] : [].concat(minimizeZeroes(array.slice(1)))
+// *    } else {
+// *        return array.length === 0 ? [] : [array[0]].concat(minimizeZeroes(array.slice(1)));
+// *    }
+// * };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
 // their original sign.  The first number in the index always needs to be positive.
