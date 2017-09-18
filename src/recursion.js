@@ -532,8 +532,9 @@ var tagCount = (tag, node) => {
 // console.log(binarySearch(5)) will return '5'
 
 var binarySearch = (array, target, min, max) => {
-    let firstHalf, secondHalf,
-    halfway = Math.floor(array.length / 2);
+    let firstHalf; 
+    let secondHalf;
+    let halfway = Math.floor(array.length / 2);
     if (min === undefined) {
         min = 0;
     }
@@ -561,7 +562,9 @@ var binarySearch = (array, target, min, max) => {
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
 var mergeSort = array => {
-    let halfway, firstHalf, secondHalf;
+    let halfway; 
+    let firstHalf; 
+    let secondHalf;
     let merge = (first, second) => {
         let sortArr = [];
         while (first.length > 0 && second.length > 0) {
